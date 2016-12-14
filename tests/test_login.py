@@ -23,41 +23,41 @@ class LoginTest(BaseCase):
         """ Test the functionality of logging in, logging out, and 
         adding the configuration to a new nation
         """
-        input = ("admin", "password")
+        username, password = ("admin", "password")
         # if remote, test first login, otherwise test second login
         if is_travis():
-            self.login_test(*input, True)
+            self.login_test(username, password, True)
             self.configuration_test()
             self.logout_test()
-            self.login_test(*input)
+            self.login_test(username, password)
         else:
-            self.login_test(*input)
+            self.login_test(username, password)
             self.logout_test()
-                        
+
     @unittest.expectedFailure
     def test_incorrect_username(self):
         """ Test incorrect username input in login form
         
         TODO: check username in CouchDB 
         """
-        input = ("", "password")
+        username, password = ("", "password")
         if is_travis():
-            self.login_test(*input, True)
+            self.login_test(username, password, True)
         else:
-            self.login_test(*input)
-        
-    @unittest.expectedFailure    
+            self.login_test(username, password)
+
+    @unittest.expectedFailure
     def test_incorrect_password(self):
         """ Test incorrect password input in login form
          
         TODO: check password in CouchDB
         """
-        input = ("admin", "")
+        username, password = ("admin", "")
         if is_travis():
-            self.login_test(*input, True)
+            self.login_test(username, password, True)
         else:
-            self.login_test(*input)
-        
+            self.login_test(username, password)
+
     def login_test(self, username, password, first=False):
         """ (string, string, boolean) -> NoneType
         
@@ -114,20 +114,20 @@ class LoginTest(BaseCase):
         submit = driver.find_element_by_id("formButton")
         submit.click()
         sleep(5)
-        
+
         # if configuration was successful, accept confirmation alert
         actual = Alert(driver).text
         expected = "Configurations are successfully added."
         self.assertEqual(actual, expected)
         Alert(driver).accept()
-        
+
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "dashboard")))
-        
+
         # ensure configuration was submitted (TODO: check against CouchDB)
         actual = driver.current_url
         expected = "http://127.0.0.1:5981/apps/_design/bell/MyApp/index.html#dashboard"
         self.assertEqual(actual, expected)
-         
+
 
 if __name__ == "__main__":
     unittest.main()
