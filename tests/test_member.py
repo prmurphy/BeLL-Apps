@@ -134,6 +134,7 @@ class MemberTest(BaseCase):
         Alert(driver).accept()
         # test we're back to the login page
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "login")))
+        sleep(5)
         actual = driver.current_url
         expected = bell.get_url() + "#login"
         self.assertEqual(actual, expected)
