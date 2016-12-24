@@ -17,7 +17,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 
 @on_platforms(browsers)
-class PublicationTest(BaseCase):
+class TestPublication(BaseCase):
 
     def test_login(self):
         """ NoneType -> NoneType
