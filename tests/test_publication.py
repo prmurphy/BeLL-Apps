@@ -18,7 +18,7 @@ from time import sleep
 
 @on_platforms(browsers)
 class TestPublication(BaseCase):
-
+    """ Contains publication test of Bell app."""
     def test_login(self):
         """ NoneType -> NoneType
         
@@ -35,7 +35,7 @@ class TestPublication(BaseCase):
         # wait for the next page, and fill the configuration only if needed
         try:
             WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "dashboard")))
-            #self.logout_test()
+            
             self.click_manager_test()
             self.click_publications_test()
             self.click_and_add_issue()
@@ -46,6 +46,7 @@ class TestPublication(BaseCase):
             self.click_publications_test()
             self.delete_test()
             self.delete_test()
+            self.logout_test()
             
         except:
             WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//*[contains(@id, 'code')]")))
@@ -71,16 +72,20 @@ class TestPublication(BaseCase):
         self.assertEqual(actual, expected)
 
     def click_manager_test(self):
+        """Clicks on the 'Manager' text and checks to see that
+           the URL is correct."""
+        
         sleep(5)
         driver = self.driver
         inputElement = driver.find_element_by_id('NationManagerLink')
         inputElement.click()
-        sleep(2)
+        sleep(2)        
         expected = 'http://127.0.0.1:5981/apps/_design/bell/nation/index.html#dashboard'
         actual = driver.current_url
         self.assertEqual(actual, expected)
         
     def click_publications_test(self):
+        """Clicks on 'publications' and checks URL"""
         sleep(5)
         driver = self.driver
         inputElement = driver.find_element_by_partial_link_text('Publications')
@@ -91,6 +96,8 @@ class TestPublication(BaseCase):
         self.assertEqual(actual, expected)
         
     def click_and_add_issue(self):
+        """Clicks 'add issue' button, checks URL then adds an issue which it checks by reaing the
+           popup text"""
         sleep(5)
         driver = self.driver
         inputElement = driver.find_element_by_partial_link_text('Add Issue')
@@ -109,18 +116,24 @@ class TestPublication(BaseCase):
         inputElement.click()
         sleep(3)
         alert = driver.switch_to_alert()
+        actual = alert.text
+        expected = 'Issue saved.'        
+        self.assertEqual(actual, expected)
         alert.accept()
         sleep(3)
         inputElement = driver.find_element_by_partial_link_text('My Home')
         inputElement.click()
-        sleep(3)    
+        sleep(5)    
 
     def delete_test(self):
+        """Clicks the first element with 'Delete' as text then checks deletion by reaing popup"""
         sleep(5)
         driver = self.driver
         inputElement = driver.find_element_by_xpath(".//*[contains(text(), 'Delete')]")
         inputElement.click()
         alert = driver.switch_to_alert()
+        actual = alert.text
+        expected = 'Are you sure you want to delete this publication?'
         alert.accept()
         sleep(1)
         alert = driver.switch_to_alert()
