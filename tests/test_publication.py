@@ -77,9 +77,9 @@ class TestPublication(BaseCase):
         
         sleep(5)
         driver = self.driver
-        inputElement = driver.find_element_by_id('NationManagerLink')
-        inputElement.click()
-        sleep(2)        
+        input_element = driver.find_element_by_id('NationManagerLink')
+        input_element.click()
+        sleep(5)        
         expected = 'http://127.0.0.1:5981/apps/_design/bell/nation/index.html#dashboard'
         actual = driver.current_url
         self.assertEqual(actual, expected)
@@ -88,8 +88,8 @@ class TestPublication(BaseCase):
         """Clicks on 'publications' and checks URL"""
         sleep(5)
         driver = self.driver
-        inputElement = driver.find_element_by_partial_link_text('Publications')
-        inputElement.click()
+        input_element = driver.find_element_by_partial_link_text('Publications')
+        input_element.click()
         sleep(2)
         expected = 'http://127.0.0.1:5981/apps/_design/bell/nation/index.html#publication'
         actual = driver.current_url
@@ -100,20 +100,20 @@ class TestPublication(BaseCase):
            popup text"""
         sleep(5)
         driver = self.driver
-        inputElement = driver.find_element_by_partial_link_text('Add Issue')
-        inputElement.click()
+        input_element = driver.find_element_by_partial_link_text('Add Issue')
+        input_element.click()
         sleep(2)
         expected = 'http://127.0.0.1:5981/apps/_design/bell/nation/index.html#publication/add'
         actual = driver.current_url
         self.assertEqual(actual, expected)
-        inputElement = driver.find_element_by_name('editorName')
-        inputElement.send_keys('Test Name')
-        inputElement = driver.find_element_by_name('editorEmail')
-        inputElement.send_keys('Test@email.com')
-        inputElement = driver.find_element_by_name('editorPhone')
-        inputElement.send_keys('1111111')
-        inputElement = driver.find_element_by_name('save')
-        inputElement.click()
+        input_element = driver.find_element_by_name('editorName')
+        input_element.send_keys('Test Name')
+        input_element = driver.find_element_by_name('editorEmail')
+        input_element.send_keys('Test@email.com')
+        input_element = driver.find_element_by_name('editorPhone')
+        input_element.send_keys('1111111')
+        input_element = driver.find_element_by_name('save')
+        input_element.click()
         sleep(3)
         alert = driver.switch_to_alert()
         actual = alert.text
@@ -121,16 +121,16 @@ class TestPublication(BaseCase):
         self.assertEqual(actual, expected)
         alert.accept()
         sleep(3)
-        inputElement = driver.find_element_by_partial_link_text('My Home')
-        inputElement.click()
+        input_element = driver.find_element_by_partial_link_text('My Home')
+        input_element.click()
         sleep(5)    
 
     def delete_test(self):
         """Clicks the first element with 'Delete' as text then checks deletion by reaing popup"""
         sleep(5)
         driver = self.driver
-        inputElement = driver.find_element_by_xpath(".//*[contains(text(), 'Delete')]")
-        inputElement.click()
+        input_element = driver.find_element_by_xpath(".//*[contains(text(), 'Delete')]")
+        input_element.click()
         alert = driver.switch_to_alert()
         actual = alert.text
         expected = 'Are you sure you want to delete this publication?'
